@@ -13,13 +13,31 @@ const deleteItem = async (userCart, itemName) => {
     }
 }
 
-// remover um item
-const removeItem = async (userCart, index) => {
-   const deleteIndex =  index -1
 
-   if(index >= 0 && index < userCart.length){
-    userCart.splice(deleteIndex, 1)
-   }
+const removeItem = async(userCart, item) => {
+    // encontrar o item
+    const indexFound = userCart.findIndex((p) => p.name === item.name)
+    console.log(indexFound)
+
+    // item não encontrado
+    if(indexFound === -1){
+        console.log("Item não encontrado")
+        return
+    }
+
+    // subtrair 1 item
+    if(userCart[indexFound].quantity > 1){
+        userCart[indexFound].quantity -= 1
+        userCart[indexFound].subtotal = userCart[indexFound].price * userCart[indexFound].quantity 
+        return
+    }
+
+    // caso seja um
+
+    if(userCart[indexFound].quantity === 1){
+        userCart.splice(indexFound, 1)
+        return
+    }
 }
 
 // calcular total
@@ -41,5 +59,5 @@ export {
     deleteItem,
     removeItem,
     calcAll,
-    seeCard
+    seeCard,
 }
